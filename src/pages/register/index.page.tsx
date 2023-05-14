@@ -1,6 +1,8 @@
 import { Button, Heading, MultiStep, Text, TextInput } from "@ignite-ui/react"
 import { ArrowRight } from "phosphor-react"
 
+import { signIn } from "next-auth/react"
+
 import { Container, Form, FormError, Header } from "./styles"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -96,7 +98,11 @@ export default function Register() {
           )}
         </label>
 
-        <Button type="submit" disabled={isSubmitting}>
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+          onClick={() => signIn("google")}
+        >
           Próximo passo
           <ArrowRight />
         </Button>
