@@ -1,17 +1,14 @@
+import { zodResolver } from "@hookform/resolvers/zod"
 import { Button, Heading, MultiStep, Text, TextInput } from "@ignite-ui/react"
+import { AxiosError } from "axios"
+import { useRouter } from "next/router"
 import { ArrowRight } from "phosphor-react"
-
-import { signIn } from "next-auth/react"
-
-import { Container, Form, FormError, Header } from "./styles"
+import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
+import { api } from "../../lib/axios"
 
-import { useRouter } from "next/router"
-import { useEffect } from "react"
-import { api } from "@/lib/axios"
-import { AxiosError } from "axios"
+import { Container, Form, FormError, Header } from "./styles"
 
 const registerFormSchema = z.object({
   username: z
@@ -52,6 +49,7 @@ export default function Register() {
         name: data.name,
         username: data.username,
       })
+
       await router.push("/register/connect-calendar")
     } catch (err) {
       if (err instanceof AxiosError && err?.response?.data?.message) {
@@ -98,11 +96,7 @@ export default function Register() {
           )}
         </label>
 
-        <Button
-          type="submit"
-          disabled={isSubmitting}
-          onClick={() => signIn("google")}
-        >
+        <Button type="submit" disabled={isSubmitting}>
           Próximo passo
           <ArrowRight />
         </Button>
